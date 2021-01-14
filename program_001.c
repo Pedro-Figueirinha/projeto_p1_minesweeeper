@@ -7,18 +7,46 @@ float diff;
 int ncols, nlines;
 int nmines = 0;
 int mines = 0;
-int blank_board[30][30];                                //This contains the board full of '|-|' characters
+int blank_board[30][30];//tabuleiro composto por '-'s
 int final_board[30][30];
+char f_or_u;
 
-void win( void )                                        // Runs the play_again function
+void win( void )
 {
-    printf("\n\n\n\t\t\tYOU WIN!!!!!\n\n\n");
+    printf("\n\n\n\t\t\tGanhou!!!!!\n\n\n");
     exit(1);
 }
-void boom( void )                                       // Runs the print_final_minefield function, then the play_again function                    
+void print_final_board(int board[nlines][ncols],int nlines, int ncols, int nmines)//Prints the minefield, showing where all of the mines are placed
 {
-    //print_final_minefield();
-    printf("\n\t\tYou hit a mine at %d,%d\n\t\tYOU LOSE!!!!", x, y);
+    int i = 0, j = 0, z = 0;
+    while( z < ncols )
+    {
+        if( z == 0 )
+        {
+            printf("\t");
+        }
+        printf("|%d|\t", z);
+        z++;
+    }
+    printf("\n\n");
+
+    while( j < nlines )
+    {   
+        printf("|%d|\t", j);
+        while( i < ncols)
+        {
+            printf("|%c|\t", final_board[i][j]);
+            i++;
+        }
+        printf("\n");
+        i = 0;
+        j++;
+    }
+}
+void boom( void )                    
+{
+    //print_final_board(board, nlines, ncols, nmines);
+    printf("\n\t\tAcertou numa mina em %d,%d\n\t\tperdeu o jogo!!!!", x, y);
     exit(1);
 }
 
@@ -26,26 +54,24 @@ void generate_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
 
     int i = 0, j = 0;
 
-    srand( time( NULL ) );                                  //Starts the random no. generator
+    srand( time( NULL ) );//a utilizacao do time serve para que cada vez que o programa é corrido a posição é diferente
 
-    while( j < nlines )                                          //Nested loop for making the blank board and final board
+    for (int j=0; j < nlines; j++)//ciclo para criar o blank_board e o final_board
     {
-        while( i < ncols)
+        for (int i=0; i < ncols; i++)
         {
             board[i][j] = '-';
             blank_board[i][j] = board[i][j];        
-            final_board[i][j] = board[i][j];        
-            i++;
-        }
-        i = 0;
-        j++;
+            final_board[i][j] = board[i][j];
+        }        
     }
-    mines = 0;
-    while( mines < nmines )                            //Randomly generates the mines into the board
+    
+    mines = 0;    
+    while( mines < nmines )//minas espalhadas aleatoreamente pelo board
     {
         i = rand()%(ncols);
         j = rand()%(nlines);
-        if( board[i][j] != '*')                         //If statement that checks if there is a mine already there and doesn't place a mine if there is
+        if( board[i][j] != '*')//verifica se já se existem minas naquela posição e se não, coloca lá um.
         {
             board[i][j] = '*';
             final_board[i][j] = board[i][j];
@@ -55,9 +81,9 @@ void generate_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
     i = 0;
     j = 0;
 
-    while( j < nlines )                                          //While loop that generates the numbers for any adjacent mines
+    for (int j = 0; j < nlines; j++)
     {
-        while( i < ncols)
+        for (int i = 0; i < ncols; i++)
         {
             if( board[i][j] != '*')
             {
@@ -95,22 +121,17 @@ void generate_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
             {
                 board[i][j]++;
             }
-            i++;
         }
-        i = 0;
-        j++;
+        
     }
     i = 0;
     j = 0;
-    
-    
-
 }
 
 void print_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
 
     int i = 0, j = 0, z = 0;
-    while( z < ncols )                                          // This while loop prints out the line of co-ordinates along the x axis of the board
+    while( z < ncols )//print das coordenadas no topo da tabela
     {
         if( z == 0 )
         {
@@ -121,7 +142,7 @@ void print_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
     }
     printf("\n\n");
 
-    while( j < nlines )                                          // Loop that prints out each character in the board                         
+    while( j < nlines )// Loop that prints out each character in the board
     {   
         printf("|%d|\t", j);
         while( i < ncols)
@@ -131,9 +152,9 @@ void print_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
                 printf("|%c|\t", blank_board[i][j]);
 
             }
-            else if( board[i][j] == 0 )                 // This changes any spaces with values of zero to the character 'B'
+            else if( board[i][j] == 0 )//células vazias ' '
             {
-                blank_board[i][j] = 'B';                
+                blank_board[i][j] = ' ';                
                 printf("|%c|\t", blank_board[i][j]);
             }
             else
@@ -149,11 +170,11 @@ void print_board(int board[nlines][ncols],int nlines, int ncols, int nmines){
     }
     
 }
-void jogada(int board[nlines][ncols],int nlines, int ncols, int nmines){
+void uncover(int board[nlines][ncols],int nlines, int ncols, int nmines){
 
     int q = 0, i=0, j=0, match=0;
     print_board(board, nlines, ncols, nmines);
-    while( j < nlines )                                          // While loop for testing whether or not the user has cleared the board
+    while( j < nlines )// While loop for testing whether or not the user has cleared the board
     {
         while( i < ncols )
         {
@@ -166,28 +187,28 @@ void jogada(int board[nlines][ncols],int nlines, int ncols, int nmines){
         i = 0;
         j++;
     }
-    if( match == (( ncols * nlines ) - nmines))                 // If the user has cleared the board, the win() function is run
+    if( match == (( ncols * nlines ) - nmines))// If the user has cleared the board, the win() function is run
     {
         win();
     }
-    printf("\nEnter the x value, then a space, then the y value:");
-    scanf("%d %d", &x, &y);                                 // Reading in the co-ordinates for the guess
+    printf("\nInsira o num da coluna, seguido de um espaço e do num da linha:");
+    scanf("%d %d", &x, &y);// Reading in the co-ordinates for the guess
     if( (x >= ncols) || (x < 0) || (y < 0) || (y >= nlines) )
     {
-        printf("\nPlease enter a value inside the grid\n");
-        jogada(board, nlines, ncols, nmines);
+        printf("\nInsira um valor que pertença à tabela\n");
+        uncover(board, nlines, ncols, nmines);
     }
-    if( board[x][y] == '*' )                            // Runs the boom() function if the user selects a mine
+    if( board[x][y] == '*' )// Runs the boom() function if the user selects a mine
     {
         boom();
     }
     if( blank_board[x][y] != '-' )
     {
-        printf("\nPlease enter a value that has not already been entered\n");
-        jogada(board, nlines, ncols, nmines);
+        printf("\nPosicao ja inserida. Escolha outra posicao.\n");
+        uncover(board, nlines, ncols, nmines);
     }
 
-    else                                                // Checks if the adjacent spaces are blank, then changes the values in the blank_board array. Because they are changed, they will now print out in the print_board function
+    else// Checks if the adjacent spaces are blank, then changes the values in the blank_board array. Because they are changed, they will now print out in the print_board function
     {
         blank_board[x][y] = board[x][y];
         if( board[x][y] == 0 )
@@ -225,13 +246,17 @@ void jogada(int board[nlines][ncols],int nlines, int ncols, int nmines){
                 blank_board[x+1][y+1] = board[x+1][y+1];
             }
         }
-        jogada(board, nlines, ncols, nmines);
+        uncover(board, nlines, ncols, nmines);
     }
 }
 
-//int uncover(board, nlines, ncols, line, col){}
 
-//int flag(board, nlines, ncols, line, col){}
+int flag(board, nlines, ncols, line, col){
+
+    
+
+
+}
 
 //int game_ended(board, nlines, ncols){}
 
@@ -246,8 +271,20 @@ int main(){
     scanf("%d", &nlines);
     printf("\t\tminas\n");
     scanf("%d", &nmines);
+    printf("uncover ou flag? (u/f)");
+    scanf("%d", &f_or_u);
     generate_board(board, nlines, ncols, nmines);
-    jogada(board, nlines, ncols, nmines);
+    if (f_or_u == 'u')
+    {
+        uncover(board, nlines, ncols, nmines);
+    }
+    else
+    {
+        flag(board, nlines, ncols, nmines);
+    }
+    
+    
+    
+    
     return 0;
-
 }
