@@ -22,6 +22,12 @@ int main(){
     printf("minas:\n");
     scanf("%d", &nmines);
     nflags = nmines;
+    if (nlines > 26 || ncols > 26)
+    {
+        printf("valores excedem os valores possiveis. valor max de linhas e colunas = 26.");
+        exit(1);
+    }
+    
     generate_board(board, nlines, ncols, nmines);
     jogada(board, nlines, ncols, nmines);
     return 0;
