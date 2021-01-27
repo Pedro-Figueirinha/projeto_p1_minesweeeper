@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "funcs.c"
+#include <errno.h>
 
 int ncols, nlines;
 int nmines;
@@ -12,7 +13,14 @@ float final_board[26][26];
 char f_or_u;
 
 int main(){
-
+    /*FILE *fptr = fopen("board442.txt", "r");
+    if (fptr == NULL)
+    {
+        printf("Erro: %s", strerror(errno));
+        exit(EXIT_FAILURE);
+    }*/
+    
+    
     float board[26][26]; //board inicial, os valores não vao ser alterados, este board nao é impresso
     printf("\t\tDimensoes do tabuleiro:\n");
     printf("linhas:\n");

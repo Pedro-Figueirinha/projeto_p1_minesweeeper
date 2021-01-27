@@ -94,7 +94,7 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
 void print_board(float board[26][26],int nlines, int ncols, int nmines){
 
     char letras = 'A';
-    int i = 0, j = 0, z = 0;
+    int i = 0, j = 0, lcount = 0;
     printf("|  |");
     for (i = 0; i < ncols; i++)
     {
@@ -137,7 +137,7 @@ void print_board(float board[26][26],int nlines, int ncols, int nmines){
             }
             else //num das celulas com minas proximas
             {
-               printf("|%.0f|", board[i][j]); //tentar alterar para blank 
+               printf("|%.0f|", board[i][j]);
             }
         }
         printf("\n");
@@ -299,23 +299,23 @@ void win( void )
 }
 void print_final_board(float board[26][26],int nlines, int ncols)//Nao funfa
 {
-
+    int i, j;
     for (int i = 0; i < nlines; i++)
     {
         for (int j = 0; j < ncols; j++)
         {
             if (board[i][j] == -1)
             {
-                final_board[i][j] = board[i][j];
-                printf("%.0f", final_board[i][j]);
+                blank_board[i][j] = -1;
             }            
         }        
     }
+    print_board(board, nlines, ncols, nmines);
 }
 void boom(float board[26][26],int nlines,int ncols, int x, int y )
 {    
-    //print_final_board(board,nlines, ncols);
-    printf("\n\t\tAcertou numa mina em %d,%d\n\t\tperdeu o jogo!!!!", x, y);//nao chega aqui
+    print_final_board(board,nlines, ncols);
+    printf("\n\t\tAcertou numa mina em %d,%d\n\t\tperdeu o jogo!!!!", x, y);
     exit(1);
 }
 int flag(float board[26][26],int nlines, int ncols, int x, int y){
@@ -354,13 +354,19 @@ int game_ended(float board[26][26], int nlines,int ncols)
 }
 void jogada(float board[26][26],int nlines, int ncols, int nmines){
     int i=0, j=0, match=0, x, y;
+    char lcol;
     print_board(board, nlines, ncols, nmines);
     printf("\nnum of flags: %d", nflags);
     game_ended(board, nlines, ncols);
     printf("\nInsira o num da linha, seguido de um espaço e do num da coluna:");
-    scanf("%d %d", &x, &y);//coordenadas 
+    scanf("%d %c", &x, &lcol);//coordenadas 
     printf("uncover ou flag? (u/f)");
     scanf("%s", &f_or_u);
+    y=0;
+    for (char  letras = 'a'; letras != lcol; letras++) //conversao letras para nums
+    {
+        y++;
+    }    
     if( (x >= nlines) || (x < 0) || (y < 0) || (y >= ncols) )
     {
         printf("\nInsira um valor que pertença à tabela\n");
@@ -368,7 +374,6 @@ void jogada(float board[26][26],int nlines, int ncols, int nmines){
     }
     else if(board[x][y] == -1 && f_or_u == 'u')
     {
-        //print_final_board();
         boom(board, nlines, ncols,x,y);
     }
     else if(blank_board[x][y] != -2 && blank_board[x][y] != 100)
