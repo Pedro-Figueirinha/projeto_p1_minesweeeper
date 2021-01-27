@@ -1,2 +1,1 @@
-nmines = 0;
-int mines = 0;
+#include <wchar.h>

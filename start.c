@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include "funcs.c"
+#include <errno.h>
+#include <wchar.h>
 
 int ncols, nlines;
 int nmines;
@@ -12,23 +14,14 @@ float final_board[26][26];
 char f_or_u;
 
 int main(){
-
+    int *line_ptr = &nlines, *col_ptr = &ncols, *mine_ptr = &nmines;
     float board[26][26]; //board inicial, os valores não vao ser alterados, este board nao é impresso
-    printf("\t\tDimensoes do tabuleiro:\n");
-    printf("linhas:\n");
-    scanf("%d", &nlines);
-    printf("colunas:\n");
-    scanf("%d", &ncols);
-    printf("minas:\n");
-    scanf("%d", &nmines);
-    nflags = nmines;
-    if (nlines > 26 || ncols > 26)
-    {
-        printf("valores excedem os valores possiveis. valor max de linhas e colunas = 26.");
-        exit(1);
-    }
-    
-    generate_board(board, nlines, ncols, nmines);
-    jogada(board, nlines, ncols, nmines);
+    FILE *fptr = fopen("board442.txt", "r");
+    char nliness[1000];
+    printf("Bem vindo ao minesweeper!");
+    menu();
+
+    generate_board(board, *line_ptr, *col_ptr, *mine_ptr);
+    jogada(board, *line_ptr, *col_ptr, *mine_ptr);
     return 0;
 }
