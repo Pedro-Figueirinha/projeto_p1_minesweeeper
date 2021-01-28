@@ -18,7 +18,7 @@ int main(){
     float board[26][26]; //board inicial, os valores não vao ser alterados, este board nao é impresso
     FILE *fptr = fopen("board442.txt", "r");
     char nliness[1000];
-    printf("Bem vindo ao minesweeper!");
+    printf("Bem vindo ao minesweeper!\n");
     menu();
 
     generate_board(board, *line_ptr, *col_ptr, *mine_ptr);
