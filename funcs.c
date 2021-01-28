@@ -42,8 +42,7 @@ void menu(){
     else if (escolha == 2)
     {
         /*printf("Nome do ficheiro:\n");
-        gets(source_file);*/
-        
+        gets(source_file);*/        
         if (fptr == NULL)
         {
             printf("\nError! opening file");
@@ -75,12 +74,12 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
     int x;
     char y;
     //////////////////////////CENAS PARA INPUTS///////////////////////////////////////////////////////
-    //srand( time( NULL ) );//a utilizacao do time serve para que cada vez que o programa é corrido a posição é diferente
+    srand( time( NULL ) );//a utilizacao do time serve para que cada vez que o programa é corrido a posição é diferente
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-    int a,b,c;
+    /*int a,b,c;
     FILE *fptr = fopen("board442.txt", "r");
     char nliness[1000];
     if (fptr == NULL)
@@ -89,7 +88,7 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
     }
     fscanf(fptr, "%d %d %d", &a, &b, &c);    
     printf("outputs.");
-    printf("\nlinhas:%d\n col:%d\n minas:%d\n", a, b, c);
+    printf("\nlinhas:%d\n col:%d\n minas:%d\n", a, b, c);*/
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -118,11 +117,11 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
         j=0;
 
         //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-        upper_lcol = toupper(lcol);
+        /*upper_lcol = toupper(lcol);
         for (char  letras = 'A'; letras != upper_lcol; letras++) //conversao letras para nums
         {
             j++;
-        }
+        }*/
         /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -142,7 +141,7 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
 
 
     //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-    fclose(fptr);
+    //fclose(fptr);
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -252,12 +251,13 @@ void print_board(float board[26][26],int nlines, int ncols, int nmines){
         j = 0;
     }   
 }
+
 int uncover(float board[26][26],int nlines, int ncols, int x, int y){
 
     if( blank_board[x][y]!= 100 && blank_board[x][y]!=-2 )
     {
         return 0;
-    }
+    }   
     else //limpeza das células vazias adjacentes
     {
         blank_board[x][y] = board[x][y];
@@ -328,8 +328,8 @@ int uncover(float board[26][26],int nlines, int ncols, int x, int y){
                 uncover(board,nlines,ncols,x+1,y+1);
             }
         }   
-        jogada(board, nlines, ncols, nmines);
     }
+    jogada(board, nlines, ncols, nmines);
 }
 void win( void )
 {
@@ -392,16 +392,13 @@ int game_ended(float board[26][26], int nlines,int ncols)
     
 }
 void jogada(float board[26][26],int nlines, int ncols, int nmines){
-    
-
     int i=0, j=0, match=0, x, y;
     char lcol, upper_lcol;
     print_board(board, nlines, ncols, nmines);
     printf("\nnum of flags: %d", nflags);
     game_ended(board, nlines, ncols);
-
+    printf("\nnum da linha num da coluna tipo de jogada(u/f)");
     scanf("%d %c %c", &x, &lcol, &f_or_u);//coordenadas
-    printf("%d %c %c", x, lcol, f_or_u);
     y=0;
     upper_lcol = toupper(lcol);
     for (char  letras = 'A'; letras != upper_lcol; letras++) //conversao letras para nums
@@ -425,14 +422,12 @@ void jogada(float board[26][26],int nlines, int ncols, int nmines){
     else
     {
         if (f_or_u == 'u')
-        {
-                
+        {                
             uncover(board, nlines, ncols, x,y);
         }
         else if (f_or_u == 'f')
         {
             flag(board, nlines, ncols, x, y);
         }
-    }
-    
+    }    
 }
