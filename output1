@@ -1,0 +1,27 @@
+0 - Exit
+1 - Generate board
+2 - Read board
+Insert the file name
+
+Initial Board
+   A B C D
+ 1 . . . .
+ 2 . . . .
+ 3 . . . .
+ 4 . . . .
+
+Flags left: 2
+State the position and the action: u(ncover) or f(lag).
+For instance: 1 A u
+
+   A B C D
+ 1 . . . *
+ 2 . . . .
+ 3 . . . *
+ 4 . . . .
+
+Game Over! You LOST...
+
+0 - Exit
+1 - Generate board
+2 - Read board

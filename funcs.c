@@ -16,8 +16,14 @@ char f_or_u;
 void menu(){
 
     int escolha;
+    char source_file[20];
+    FILE *testes_ptr;
     FILE *fptr = fopen("board442.txt", "r");
     char nliness[1000];
+    
+
+    /*fptr = fopen(source_file, "r");*/
+
     printf("Escolha a sua op%c%co", 231, 227);
     printf("\n0 - Sair\n1 - Criar tabuleiro\n2 - Ler tabuleiro a partir de um ficheiro\n");
     scanf("%d", &escolha);
@@ -38,9 +44,13 @@ void menu(){
     }
     else if (escolha == 2)
     {
+        /*printf("Nome do ficheiro:\n");
+        gets(source_file);*/
+        
         if (fptr == NULL)
         {
-            printf("Error! opening file");
+            printf("\nError! opening file");
+            exit(EXIT_FAILURE);
         }
         fscanf(fptr, "%d %d %d", &nlines, &ncols, &nmines);
         printf("outputs.");
@@ -67,9 +77,10 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
 
     int x;
     char y;
-    srand( time( NULL ) );//a utilizacao do time serve para que cada vez que o programa é corrido a posição é diferente
+    //srand( time( NULL ) );//a utilizacao do time serve para que cada vez que o programa é corrido a posição é diferente
+
     //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-    /*int a,b,c;
+    int a,b,c;
     FILE *fptr = fopen("board442.txt", "r");
     char nliness[1000];
     if (fptr == NULL)
@@ -78,11 +89,10 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
     }
     fscanf(fptr, "%d %d %d", &a, &b, &c);    
     printf("outputs.");
-    printf("\nlinhas:%d\n col:%d\n minas:%d\n", a, b, c);*/
+    printf("\nlinhas:%d\n col:%d\n minas:%d\n", a, b, c);
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    //lugar das minas
     char lcol, upper_lcol;
     int i, j;
     for (int i = 0; i < nlines; i++)//ciclo para criar o blank_board e o final_board
@@ -94,29 +104,34 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
             final_board[i][j] = board[i][j];
         }        
     }
+    //lugar das minas
     mines = 0;
     while (mines < nmines) //minas espalhadas aleatoreamente pelo board
     {
 
         //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-        /*fscanf(fptr, "%d %c", &i, &lcol);
-        printf("x position: %d\ny position: %c\n", i, lcol);*/
+        fscanf(fptr, "%d %c", &i, &lcol);
+        printf("x position: %d\ny position: %c\n", i, lcol);
         /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
         j=0;
 
         //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-        /*upper_lcol = toupper(lcol);
+        upper_lcol = toupper(lcol);
         for (char  letras = 'A'; letras != upper_lcol; letras++) //conversao letras para nums
         {
             j++;
-        }*/
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        j = rand()%(ncols);
-        i = rand()%(nlines);
+        //////////////////////////CENAS PARA INPUTS///////////////////////////////////////////////////////
+        /*j = rand()%(ncols);
+        i = rand()%(nlines);*/
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         if( board[i][j] != -1)//verifica se já se existem minas naquela posição e se não, coloca lá um.
         {
             board[i][j] = -1;
@@ -127,7 +142,7 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
 
 
     //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-    //fclose(fptr);
+    fclose(fptr);
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -321,7 +336,7 @@ void win( void )
     printf("\n\n\n\t\t\tGanhou!!!!!\n\n\n");
     exit(1);
 }
-void print_final_board(float board[26][26],int nlines, int ncols)//Nao funfa
+void print_final_board(float board[26][26],int nlines, int ncols)
 {
     int i, j;
     for (int i = 0; i < nlines; i++)
@@ -377,15 +392,14 @@ int game_ended(float board[26][26], int nlines,int ncols)
     
 }
 void jogada(float board[26][26],int nlines, int ncols, int nmines){
+
+    
     int i=0, j=0, match=0, x, y;
     char lcol, upper_lcol;
     print_board(board, nlines, ncols, nmines);
     printf("\nnum of flags: %d", nflags);
     game_ended(board, nlines, ncols);
-    printf("\nInsira o num da linha, seguido de um espaço e do num da coluna:");
-    scanf("%d %c", &x, &lcol);//coordenadas 
-    printf("uncover ou flag? (u/f)");
-    scanf("%s", &f_or_u);
+    scanf("%d %c %s", &x, &lcol, &f_or_u);//coordenadas
     y=0;
     upper_lcol = toupper(lcol);
     for (char  letras = 'A'; letras != upper_lcol; letras++) //conversao letras para nums
@@ -410,6 +424,7 @@ void jogada(float board[26][26],int nlines, int ncols, int nmines){
     {
         if (f_or_u == 'u')
         {
+                
             uncover(board, nlines, ncols, x,y);
         }
         else if (f_or_u == 'f')
@@ -417,4 +432,5 @@ void jogada(float board[26][26],int nlines, int ncols, int nmines){
             flag(board, nlines, ncols, x, y);
         }
     }
+    
 }
