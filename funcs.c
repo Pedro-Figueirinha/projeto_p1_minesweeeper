@@ -18,7 +18,7 @@ void menu(){
     int escolha;
     FILE *fptr = fopen("board442.txt", "r");
     char nliness[1000];
-    printf("Escolha a sua op%c%co", 231, 227);
+    printf("Escolha a sua opção:");
     printf("\n0 - Sair\n1 - Criar tabuleiro\n2 - Ler tabuleiro a partir de um ficheiro\n");
     scanf("%d", &escolha);
     if (escolha == 0)
@@ -27,7 +27,7 @@ void menu(){
     }
     else if (escolha == 1)
     {
-        printf("\t\tDimens%ces do tabuleiro:\n", 245);
+        printf("\t\tDimensões do tabuleiro:\n");
         printf("linhas:\n");
         scanf("%d", &nlines);
         printf("colunas:\n");
@@ -44,19 +44,19 @@ void menu(){
         }
         fscanf(fptr, "%d %d %d", &nlines, &ncols, &nmines);
         printf("outputs.");
-        printf("\nlinhas:\n%d\n colunas:\n%d\n minas:\n%d\n", nlines, ncols, nmines);
+        printf("\nlinhas:%d\n col:%d\n minas:%d\n", nlines, ncols, nmines);
         nflags = nmines;
         fclose(fptr);
 
         if (nlines > 26 || ncols > 26)
         {
-            printf("Os valores inseridos excedem os valores poss%cveis. valor max de linhas e colunas = 26.", 237);
+            printf("Os valores inseridos excedem os valores possíveis. valor max de linhas e colunas = 26.");
             exit(1);
         }
     }
     else
     {
-        printf("op%c%co inválida", 231, 227);
+        printf("opção inválida");
         exit(1);
     }
 }
