@@ -21,9 +21,6 @@ void menu(){
     FILE *fptr = fopen("board442.txt", "r");
     char nliness[1000];
     
-
-    /*fptr = fopen(source_file, "r");*/
-
     printf("Escolha a sua op%c%co", 231, 227);
     printf("\n0 - Sair\n1 - Criar tabuleiro\n2 - Ler tabuleiro a partir de um ficheiro\n");
     scanf("%d", &escolha);
@@ -77,7 +74,10 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
 
     int x;
     char y;
+    //////////////////////////CENAS PARA INPUTS///////////////////////////////////////////////////////
     //srand( time( NULL ) );//a utilizacao do time serve para que cada vez que o programa é corrido a posição é diferente
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
     int a,b,c;
@@ -110,8 +110,8 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
     {
 
         //////////////////////////CENAS PARA FILES///////////////////////////////////////////////////////
-        fscanf(fptr, "%d %c", &i, &lcol);
-        printf("x position: %d\ny position: %c\n", i, lcol);
+        /*fscanf(fptr, "%d %c", &i, &lcol);
+        printf("x position: %d\ny position: %c\n", i, lcol);*/
         /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -127,8 +127,8 @@ void generate_board(float board[26][26],int nlines, int ncols, int nmines){
 
 
         //////////////////////////CENAS PARA INPUTS///////////////////////////////////////////////////////
-        /*j = rand()%(ncols);
-        i = rand()%(nlines);*/
+        j = rand()%(ncols);
+        i = rand()%(nlines);
         /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -392,14 +392,16 @@ int game_ended(float board[26][26], int nlines,int ncols)
     
 }
 void jogada(float board[26][26],int nlines, int ncols, int nmines){
-
     
+
     int i=0, j=0, match=0, x, y;
     char lcol, upper_lcol;
     print_board(board, nlines, ncols, nmines);
     printf("\nnum of flags: %d", nflags);
     game_ended(board, nlines, ncols);
-    scanf("%d %c %s", &x, &lcol, &f_or_u);//coordenadas
+
+    scanf("%d %c %c", &x, &lcol, &f_or_u);//coordenadas
+    printf("%d %c %c", x, lcol, f_or_u);
     y=0;
     upper_lcol = toupper(lcol);
     for (char  letras = 'A'; letras != upper_lcol; letras++) //conversao letras para nums
