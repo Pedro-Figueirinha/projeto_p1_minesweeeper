@@ -7,4 +7,3 @@ void print_board(float board[26][26],int nlines, int ncols, int nmines);
 int uncover(float board[26][26],int nlines, int ncols, int x, int y);
 int flag(float board[26][26],int nlines, int ncols, int x, int y);
 void menu();
-//void jogada(float board[26][26],int nlines, int ncols, int nmines);
